@@ -14,6 +14,7 @@ const PostsSchema = new Schema(
             get: (val) => moment(val).format('DD-MM-YYYY'),
             set:(val) => moment(val, 'DD-MM-YYYY').toDate()
         },
+        published: {type: Boolean, default: true},
         author: {type: Schema.Types.ObjectId, ref: 'User', required: true},
         comments: {type: Schema.Types.ObjectId, ref: 'Comments'}
     }
