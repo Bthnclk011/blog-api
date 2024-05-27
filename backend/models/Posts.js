@@ -22,4 +22,6 @@ const PostsSchema = new Schema(
 PostsSchema.virtual('url').get(function()
 {
     return `/posts/${this.title}`
-})
+});
+
+module.exports = mongoose.model('Post', PostsSchema)
