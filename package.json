@@ -1,0 +1,15 @@
+{
+  "name": "blog-api",
+  "version": "1.0.0",
+  "description": "A blog CMS Script to distribute contents, easily configure and extend",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "blog",
+    "CMS"
+  ],
+  "author": "Batuhan Çelik",
+  "license": "ISC"
+}
