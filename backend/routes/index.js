@@ -5,6 +5,7 @@ const postControllers = require('../controllers/postControllers');
 const commentControllers = require('../controllers/commentControllers');
 const utilityControllers = require('../controllers/utilityControllers');
 const authControllers = require('../controllers/authControllers');
+
 // USERS API REQUEST
 router.get('/users', userControllers.get_users);
 router.post('/users', userControllers.post_users);
