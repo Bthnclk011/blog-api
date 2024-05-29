@@ -152,7 +152,7 @@ exports.put_user =
 
         try
         {
-            const user = await Users.findById(req.params.userId)
+            const user = await Users.findById(req.params.userId).exec()
             if(!user)
             {
                 return res.status(404).json({message: 'User not found'});
@@ -199,7 +199,7 @@ exports.delete_user = asyncHandler(async(req, res, next) =>
 {
     try
     {
-        const user = await Users.findById(req.params.userId);
+        const user = await Users.findById(req.params.userId).exec();
         if(!user)
         {
             return res.status(404).json({message: 'User not found'})
