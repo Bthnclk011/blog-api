@@ -5,6 +5,7 @@ const moment = require('moment');
 const UsersSchema = new Schema(
     {
         name: {type: String, unique: true, required: true, minLength: 1, maxLength:50},
+        password: {type: String, required: true, minLength: 6},
         regDate: 
         {
             type:Date,
