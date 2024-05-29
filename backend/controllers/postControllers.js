@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const { body, validationResult} = require('express-validator');
 const Posts = require('../models/Posts');
-const Comments = require('../models/Comments');
+const Categories = require('../models/Categories');
 
 exports.get_posts = asyncHandler(async(req, res, next) =>
 {
@@ -32,14 +32,21 @@ exports.post_posts =
     .isLength({min:1, max:100})
     .isString()
     .escape()
-    .withMessage('Title must be a string, length of between min 1 and max 100')
+    .withMessage('Description must be a string, length of between min 1 and max 100')
     ,
     body('text')
     .trim()
     .isLength({min:1})
     .isString()
     .escape()
-    .withMessage('Title must be a string')
+    .withMessage('Text must be a string')
+    ,
+    body('category')
+    .trim()
+    .isLength({min:1})
+    .isString()
+    .escape()
+    .withMessage('Category name must be a string')
     ,
     body('published')
     .optional({checkFalsy: true})
@@ -53,11 +60,17 @@ exports.post_posts =
         const errors = validationResult(req);
         if(!errors.isEmpty())
         {
-            res.status(400).json({errors: errors.array()})
+            return res.status(400).json({errors: errors.array()})
         }
 
         try
         {
+            const category = await Categories.findOne({title: req.body.category}).populate('posts').exec();
+            if(!category)
+            {
+                return res.status(404).json({message: 'Category not found'})
+            }
+
             const post = new Posts(
                 {
                     title: req.body.title,
@@ -66,10 +79,13 @@ exports.post_posts =
                     date: new Date(),
                     published: req.body.published,
                     author: req.user.id,
+                    category: category.id,
                     comments: []
                 })
 
             await post.save()
+            category.posts.push(post);
+            await category.save();
 
             return res.status(201).json({message: 'Post successfully created'});
         }
@@ -127,6 +143,14 @@ exports.put_post_page =
     .escape()
     .withMessage('Title must be a string')
     ,
+    body('category')
+    .optional({checkFalsy: true})
+    .trim()
+    .isLength({min:1})
+    .isString()
+    .escape()
+    .withMessage('Category name must be a string')
+    ,
     body('published')
     .optional({checkFalsy: true})
     .trim()
@@ -144,7 +168,9 @@ exports.put_post_page =
 
         try
         {
-            const post = await Posts.findById(req.params.postId).exec();
+            
+            const post = await Posts.findById(req.params.postId).populate('category').exec();
+
             if(!post)
             {
                 return res.status(404).json({message: 'Post not found'})
@@ -152,7 +178,7 @@ exports.put_post_page =
 
             if(req.body.title)
             {
-                post.name = req.body.title
+                post.title = req.body.title
             }
 
             if(req.body.description)
@@ -165,9 +191,28 @@ exports.put_post_page =
                 post.text = req.body.text;
             }
 
+            if(req.body.category)
+            {
+                const prevCategory = post.category;
+                const newCategory = await Categories.findOne({title: req.body.category}).populate('posts').exec();
+                if(!newCategory)
+                {
+                    return res.status(404).json({message: 'Category not found'})
+                }
+
+                prevCategory.posts.pull(post);
+                await prevCategory.save();
+
+                post.category = newCategory.id;
+                newCategory.posts.push(post);
+                await newCategory.save();
+
+            }
+    
+
             if(req.body.published)
             {
-                user.published = req.body.published;
+                post.published = req.body.published;
             }
 
             await post.save()
