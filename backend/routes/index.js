@@ -8,7 +8,7 @@ const authControllers = require('../controllers/authControllers');
 
 // USERS API REQUEST
 router.get('/users', userControllers.get_users);
-router.post('/users', userControllers.post_users);
+router.post('/users', userControllers.post_user);
 router.get('/users/:userId'.userControllers.get_user);
 router.put('/users/:userId', userControllers.put_user);
 router.delete('/users/:userId', userControllers.delete_user);
