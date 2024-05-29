@@ -15,7 +15,7 @@ router.delete('/users/:userId', userControllers.delete_user);
 
 // POSTS API REQUEST
 router.get('/posts', postControllers.get_posts);
-router.post('/post-create', postControllers.post);
+router.post('/post-create', postControllers.post_posts);
 router.get('/posts/:postId', postController.get_post_page);
 router.put('/posts/:postId', postController.put_post_page);
 router.delete('/posts/:postId', postController.delete_post_page);
