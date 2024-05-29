@@ -22,10 +22,10 @@ router.delete('/posts/:postId', postController.delete_post_page);
 
 //COMMENTS API REQUEST
 router.get('/posts/:postId/comments', commentControllers.get_comments);
+router.post('/posts/:postId/post-comment', commentControllers.post_comment);
 router.get('/posts/:postId/:commentId', commentControllers.get_comment);
 router.put('/posts/:postId/:commentId', commentControllers.put_comment);
 router.delete('/posts/:postId/:commentId', commentControllers.delete_comment);
-router.post('/posts/:postId/post-comment', commentControllers.post_comment);
 
 //CATEGORIES API REQUEST
 router.get('/categories', utilityControllers.get_categories);
