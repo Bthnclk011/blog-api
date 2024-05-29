@@ -230,12 +230,14 @@ exports.delete_post_page = asyncHandler(async (req, res, next) =>
 {
     try
     {
-        const post = await Posts.findById(req.params.postId).exec();
+        const post = await Posts.findById(req.params.postId).populate('category').exec();
         if(!post)
         {
             return res.status(404).json({message: 'Post not found'})
         }
 
+        posts.category.posts.pull(post);
+        await post.category.save()
         Posts.findByIdAndDelete(req.params.postId).exec()
 
         return res.status(200).json({message: 'Post successfully deleted'})
