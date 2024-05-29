@@ -14,7 +14,7 @@ const UsersSchema = new Schema(
         },
         rank: {type: String, enum:['admin', 'editor', 'author', 'user'], required: true},
         age: {type: Number}, 
-        Gender: {type: String}
+        gender: {type: String}
     }
 )
 
