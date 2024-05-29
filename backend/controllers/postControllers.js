@@ -9,12 +9,12 @@ exports.get_posts = asyncHandler(async(req, res, next) =>
     {
         const posts = await Posts.find().exec();
         
-        res.response(200).json(posts)
+        return res.status(200).json(posts)
     }
 
     catch(err)
     {
-        res.response(500).json({message: err.message})
+        return res.status(500).json({message: err.message})
     }
 })
 
@@ -50,7 +50,7 @@ exports.post_posts =
     ,
     asyncHandler(async(req, res, next) =>
     {
-        const errors = validationResolt(req);
+        const errors = validationResult(req);
         if(!errors.isEmpty())
         {
             res.status(400).json({errors: errors.array()})
@@ -136,10 +136,10 @@ exports.put_post_page =
     ,
     asyncHandler(async(req, res, next) =>
     {
-        const errors = validationResolt(req);
+        const errors = validationResult(req);
         if(!errors.isEmpty())
         {
-            res.status(400).json({errors: errors.array()})
+            return res.status(400).json({errors: errors.array()})
         }
 
         try
@@ -147,7 +147,7 @@ exports.put_post_page =
             const post = await Posts.findById(req.params.postId).exec();
             if(!post)
             {
-                res.status(404).json({message: 'Post not found'})
+                return res.status(404).json({message: 'Post not found'})
             }
 
             if(req.body.title)
@@ -188,7 +188,7 @@ exports.delete_post_page = asyncHandler(async (req, res, next) =>
         const post = await Posts.findById(req.params.postId).exec();
         if(!post)
         {
-            res.status(404).json({message: 'Post not found'})
+            return res.status(404).json({message: 'Post not found'})
         }
 
         Posts.findByIdAndDelete(req.params.postId).exec()
