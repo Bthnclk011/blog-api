@@ -37,5 +37,6 @@ router.delete('/categories/:categoryId', utilityControllers.delete_categories);
 router.post('/log-in', autControllers.login);
 router.post('/log-out', autControllers.log_out);
 router.post('/sign-up', authControllers.sign_up);
-router.get('/auth/me', authControllers.get_me)
+router.get('/auth/me', authControllers.get_me);
+
 module.exports = router;
