@@ -140,14 +140,26 @@ exports.delete_comment = asyncHandler(async(req, res, next) =>
 {
     try
     {
-        const comment = await Comments.findById(req.params.commentId);
+        const post = await Posts.findById(req.params.postId).populate('comments').exec();
+
+        if(!post)
+        {
+            return res.status(404).json({message: 'Post not found'});
+        }
+
+        const comment = await Comments.findById(req.params.commentId).exec();
 
         if(!comment)
         {
-            return res.status(404).json({message: 'Comment not found'});
+            return res.status(404).json({message: 'Post not found'});
         }
 
-        return res.status(200).json({message: 'Comment is deleted'});
+        post.comments.pull(comment.id);
+        await post.save()
+
+        await Comments.findByIdAndDelete(req.params.commentId).exec();
+
+        return res.status(200).json({message: 'Comment successfully deleted'});
     }
 
     catch(err)
