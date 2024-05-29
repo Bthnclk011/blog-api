@@ -16,6 +16,7 @@ const PostsSchema = new Schema(
         },
         published: {type: Boolean, default: true},
         author: {type: Schema.Types.ObjectId, ref: 'User', required: true},
+        category: {type: Schema.Types.ObjectId, ref: 'Category'},
         comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}]
     }
 )
