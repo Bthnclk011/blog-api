@@ -9,16 +9,16 @@ const authControllers = require('../controllers/authControllers');
 // USERS API REQUEST
 router.get('/users', userControllers.get_users);
 router.post('/users', userControllers.post_user);
-router.get('/users/:userId'.userControllers.get_user);
+router.get('/users/:userId', userControllers.get_user);
 router.put('/users/:userId', userControllers.put_user);
 router.delete('/users/:userId', userControllers.delete_user);
 
 // POSTS API REQUEST
 router.get('/posts', postControllers.get_posts);
 router.post('/post-create', postControllers.post_posts);
-router.get('/posts/:postId', postController.get_post_page);
-router.put('/posts/:postId', postController.put_post_page);
-router.delete('/posts/:postId', postController.delete_post_page);
+router.get('/posts/:postId', postControllers.get_post_page);
+router.put('/posts/:postId', postControllers.put_post_page);
+router.delete('/posts/:postId', postControllers.delete_post_page);
 
 //COMMENTS API REQUEST
 router.get('/posts/:postId/comments', commentControllers.get_comments);
@@ -34,7 +34,7 @@ router.put('/categories/:categoryId', utilityControllers.put_categories);
 router.delete('/categories/:categoryId', utilityControllers.delete_categories);
 
 //authControllers
-router.post('/log-in', autControllers.login);
+router.post('/log-in', authControllers.login);
 router.post('/log-out', autControllers.log_out);
 router.post('/sign-up', authControllers.sign_up);
 router.get('/auth/me', authControllers.get_me);
