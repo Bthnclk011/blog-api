@@ -29,7 +29,7 @@ router.delete('/posts/:postId/:commentId', commentControllers.delete_comment);
 
 //CATEGORIES API REQUEST
 router.get('/categories', utilityControllers.get_categories);
-router.post('/categories', utilityControllers.get_categories);
+router.post('/categories', utilityControllers.post_categories);
 router.put('/categories/:categoryId', utilityControllers.put_categories);
 router.delete('/categories/:categoryId', utilityControllers.delete_categories);
 
