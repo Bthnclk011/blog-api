@@ -33,9 +33,8 @@ router.post('/categories', utilityControllers.post_categories);
 router.put('/categories/:categoryId', utilityControllers.put_categories);
 router.delete('/categories/:categoryId', utilityControllers.delete_categories);
 
-//authControllers
-router.post('/log-in', authControllers.login);
-router.post('/log-out', autControllers.log_out);
+//AUTH Controllers
+router.get('/log-in', authControllers.login);
 router.post('/sign-up', authControllers.sign_up);
 router.get('/auth/me', authControllers.get_me);
 
